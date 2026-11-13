@@ -101,7 +101,7 @@ fontique = { version = "0.13.0", default-features = false, features = [
 glow = "0.17.0" # Can't update to 0.18: wgpu 30's wgpu-hal pins glow 0.17, so bumping splits it into two versions
 glutin = { version = "0.32.3", default-features = false }
 glutin-winit = { version = "0.5.0", default-features = false }
-harfrust = "0.15.0" # Can't update to 0.16+: it needs read-fonts 0.47, but fontique 0.13, skrifa 0.49, and usvg 0.50 pin read-fonts 0.46
+harfrust = "0.16.0"
 image = { version = "0.25.10", default-features = false } # `flate2` is held at 1.1.9 in `Cargo.lock`: 1.1.10 moved to miniz_oxide 0.9, duplicating the 0.8 that png needs
 itertools = "0.15.0"
 jiff = { version = "0.2.39", default-features = false }
@@ -137,10 +137,10 @@ send_wrapper = "0.6.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_bytes = "0.11.19"
 similar-asserts = "2.0"
-skrifa = { version = "0.49.0", default-features = false, features = [
+skrifa = { version = "0.50.0", default-features = false, features = [
   "std",
   "autohint_shaping",
-] } # Can't update to 0.50+: `glifo` 0.5 (via vello_cpu 0.4) and usvg 0.50 pin skrifa 0.49
+] }
 smallvec = "1.16"
 smithay-clipboard = "0.7.2" # 0.7.3 pulls smithay-client-toolkit 0.20 (calloop 0.14), duplicating the 0.19/0.13 that winit 0.30 needs
 static_assertions = "1.1"
@@ -326,3 +326,13 @@ let_underscore_must_use = "allow"
 let_underscore_untyped = "allow"
 self_named_module_files = "allow" # Disabled waiting on https://github.com/rust-lang/rust-clippy/issues/9602
 significant_drop_tightening = "allow" # Too many false positives
+
+# TEMPORARY: unreleased skrifa 0.50 / read-fonts 0.47 bumps. Remove once vello, parley & resvg release.
+[patch.crates-io]
+glifo = { git = "https://github.com/akx/vello", branch = "skrifa-050" }
+vello_common = { git = "https://github.com/akx/vello", branch = "skrifa-050" }
+vello_cpu = { git = "https://github.com/akx/vello", branch = "skrifa-050" }
+fontique = { git = "https://github.com/akx/parley", branch = "bump-read-fonts" }
+parlance = { git = "https://github.com/akx/parley", branch = "bump-read-fonts" }
+resvg = { git = "https://github.com/akx/resvg", branch = "usvg-skrifa-harfrust" }
+usvg = { git = "https://github.com/akx/resvg", branch = "usvg-skrifa-harfrust" }
